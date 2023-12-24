@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% extends 'Pets/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Pet Details -->
+<section class="ftco-section">
+    <div class="container">
+        <div class="row d-flex">
+
+            <div class="col-md-4 d-flex ftco-animate">
+                <div class="blog-entry align-self-stretch">
+                    <div class="menu-wrap">
+                        <img id="item-image" src="{{pet.petImage}}" alt="item Image" class="menu-img img mb-1"
+                            style="width: 350px; height: 350px; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 heading-section ftco-animate text-center">
+                <h2 class="mb-4" id="item-name-bold">{{ pet.petName }}</h2>
+                <div style="text-transform: uppercase; font-weight: bold;"><b>{{ pet.type }}</b></div>
+
+                <p>{{ pet.description }}</p>
+                <div class="meta">
+                    <div style="font-weight: bold;">Breed : {{ pet.breed }}</div>
+                    <div>Birth Date : {{ pet.petBirthdate }}</div>
+                    <div class="text py-4 d-block">
+                        <div>
+                            {%if hide_user_name %}
+                                {% if exist_pet != '' %}
+                                    <p style="color:red; font-weight: bold;">{{exist_pet}}</p>
+                                    <a  onclick="message_back('choose', '')" class="btn btn-white btn-outline-white">Choose Another Pet</a>
+                                {%else%}
+                                    <a class="btn btn-white btn-outline-white"
+                                        onclick="message_back('add', '/apply_adoption/{{pet.id}}')">Apply for
+                                        Adoption</a>
+                                       
+                                {%endif%}
+                            {%else%}
+                                <a href="/login" class="btn btn-white btn-outline-white">Apply for Adoption</a>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    function message_back(type, link) {
+        console.log(type);
+        console.log(link);
+
+        if (type == 'choose') {
+            Swal.fire({
+                title: "You already applied for this pet ! Do you Need to Choose another One? ",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                denyButtonText: `No`
+                }).then((result) => {
+                console.log(result);
+                /* Read more about isConfirmed, isDenied below */
+                if (result.value) {
+                    window.location.href = '/pets'
+                } else if (result.dismiss === 'cancel') {
+                    window.location.href = '/'
+                }
+                });
+        } else if (type == 'add') {
+            Swal.fire({
+                title: "You Applied For This Pet, And It Was Added successfully ",
+                confirmButtonText: "Ok"
+                }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.value) {
+                    window.location.href = link
+                }
+            });
+        }
+ }
+</script>
+
+{% endblock %}

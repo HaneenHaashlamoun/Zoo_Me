@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% extends 'Pets/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ftco-animate">
+                <div class="comment-form-wrap pt-5 form-wrap-p">
+                    <h3 class="mb-5 my-header">Offer your pet for adoption</h3>
+                    <form id="delayedForm" method="POST" action="/offer_adoption/" onsubmit="message_back(); window.setTimeout(function () { document.getElementById('delayedForm').submit(); }, 1500); return false">
+                        {% csrf_token %}
+                        <!-- {{ form.as_p }} -->
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" value="cat">
+                                <label class="form-check-label" for="cat">
+                                    Cat
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" checked
+                                    value="dog">
+                                <label class="form-check-label" for="dog">
+                                    Dog
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="petName"><b>Pet Name</b></label>
+                            <input type="text" class="form-control" name="petName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="breed"><b>Breed</b></label>
+                            <input type="text" class="form-control" name="breed" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="petImage"><b>Pet Image URL</b></label>
+                            <input type="url" class="form-control" name="petImage" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="petBirthdate"><b>Pet Birth Date</b></label>
+                            <input type="date" class="form-control" name="petBirthdate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea name="description" cols="30" rows="5" minlength="200" maxlength="250" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Submit"  onclick="message_back()" class="btn btn-primary py-3 px-4 my-button">
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function message_back() {
+    Swal.fire({
+        icon: "success",
+        title: "Application Added Successfully !",
+        showConfirmButton: false,
+        timer: 1500
+    });
+ }
+</script>
+{% endblock %}
